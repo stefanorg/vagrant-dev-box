@@ -1,0 +1,173 @@
+---
+vagrantfile-local:
+    vm:
+        box: centos64-x64-vbox43-1383512148
+        box_url: 'http://box.puphpet.com/centos64-x64-vbox43.box'
+        hostname: 'devbox' 
+        network:
+            private_network: 33.33.33.10
+            forwarded_port:
+                hB990wIsHVlx:
+                    host: '8080'
+                    guest: '80'
+                9b2YThqT4IHg:
+                    host: '8443'
+                    guest: '443'
+                iI9GOFUTkXYS:
+                    host: '3306'
+                    guest: '3306'
+                X1BMFaKiyVgO:
+                    host: '9200'
+                    guest: '9200'
+                2dRTaq1EtBei:
+                    host: '27017'
+                    guest: '27017'
+                szjCLNp40Lxs:
+                    host: '28017'
+                    guest: '28017'
+                2BPsEphMfNdI:
+                    host: '1080'
+                    guest: '1080'
+        provider:
+            virtualbox:
+                modifyvm:
+                    natdnshostresolver1: on
+                    memory: '1024'
+                setextradata:
+                    VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root: 1
+        provision:
+            puppet:
+                manifests_path: puphpet/puppet
+                manifest_file: manifest.pp
+                options:
+                    - '--verbose'
+                    - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
+                    - '--parser future'
+        synced_folder:
+            AtHbYwCmCBza:
+                id: vagrant-root
+                source: ./
+                target: /home/vagrant
+                nfs: 'false'
+        
+        usable_port_range: 2200..2250
+    ssh:
+        host: null
+        port: null
+        private_key_path: null
+        username: vagrant
+        guest_port: null
+        keep_alive: true
+        forward_agent: false
+        forward_x11: false
+        shell: 'bash -l'
+    vagrant:
+        host: detect
+server:
+    packages: {  }
+    dot_files:
+        -
+            bash_aliases: null
+    _prevent_empty: ''
+mailcatcher:
+    install: '1'
+    settings:
+        smtp_ip: 0.0.0.0
+        smtp_port: 1025
+        http_ip: 0.0.0.0
+        http_port: '1080'
+        path: /usr/local/bin
+        log: /var/log/mailcatcher/mailcatcher.log
+apache:
+    modules:
+        - php
+        - rewrite
+        - ssl
+        - vhost_alias
+        - info
+    vhosts:
+        rjbGE9NptYum:
+            servername: sandbox.dev.local
+            docroot: /var/www/sandbox
+            port: '80'
+            setenv:
+                - 'APPLICATION_ENV development'
+            override:
+                - All
+    user: www-data
+    group: www-data
+    default_vhost: true
+    mpm_module: prefork
+    mod_pagespeed: '0'
+    mod_spdy: 0
+php:
+    version: '55'
+    composer: '1'
+    modules:
+        php:
+            - cli
+            - intl
+            - mcrypt
+        pear: {  }
+        pecl:
+            - pecl_http
+            - APCu-4.0.3
+            - APC
+            - PDO
+            - PDO_MYSQL
+            - PDO_SQLITE
+            - SQLite
+    ini:
+        display_errors: On
+        error_reporting: '-1'
+        session.save_path: /var/lib/php/session
+    timezone: Europe/Rome
+xdebug:
+    install: '1'
+    settings:
+        xdebug.default_enable: '1'
+        xdebug.remote_autostart: '0'
+        xdebug.remote_connect_back: '1'
+        xdebug.remote_enable: '1'
+        xdebug.remote_handler: dbgp
+        xdebug.remote_port: '9000'
+drush:
+    install: 0
+    settings:
+        drush.tag_branch: 6.x
+mysql:
+    root_password: '123'
+    phpmyadmin: '1'
+    adminer: 0
+    databases:
+        BzkcZclqPNg2:
+            grant:
+                - ALL
+            name: sandbox
+            host: sandbox
+            user: sandbox
+            password: sandbox
+            sql_file: ''
+mongodb:
+    install: '1'
+    auth: 1
+    port: '27017'
+    databases: {  }
+beanstalkd:
+    install: 0
+    settings:
+        listenaddress: 0.0.0.0
+        listenport: '13000'
+        maxjobsize: '65535'
+        maxconnections: '1024'
+        binlogdir: /var/lib/beanstalkd/binlog
+        binlogfsync: null
+        binlogsize: '10485760'
+    beanstalk_console: 0
+    binlogdir: /var/lib/beanstalkd/binlog
+rabbitmq:
+    install: 0
+    port: '5672'
+elastic_search:
+    install: '1'
+
