@@ -1,0 +1,3 @@
+[submodule "workspace/sandbox"]
+	path = workspace/sandbox
+	url = https://github.com/stefanorg/ZendSkeletonApplication.git

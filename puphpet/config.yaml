@@ -44,12 +44,11 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            AtHbYwCmCBza:
-                id: vagrant-root
-                source: ./
-                target: /home/vagrant
+            sandbox:
+                id: sandbox
+                source: ./workspace/sandbox
+                target: /var/www/sandbox
                 nfs: 'false'
-        
         usable_port_range: 2200..2250
     ssh:
         host: null
@@ -86,9 +85,9 @@ apache:
         - vhost_alias
         - info
     vhosts:
-        rjbGE9NptYum:
+        sandbox:
             servername: sandbox.dev.local
-            docroot: /var/www/sandbox
+            docroot: /var/www/sandbox/public
             port: '80'
             setenv:
                 - 'APPLICATION_ENV development'
@@ -138,13 +137,13 @@ drush:
 mysql:
     root_password: '123'
     phpmyadmin: '1'
-    adminer: 0
+    adminer: 1
     databases:
-        BzkcZclqPNg2:
+        sandbox:
             grant:
                 - ALL
             name: sandbox
-            host: sandbox
+            host: localhost
             user: sandbox
             password: sandbox
             sql_file: ''
