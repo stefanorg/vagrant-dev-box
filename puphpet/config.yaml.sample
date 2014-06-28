@@ -44,31 +44,11 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            sandbox:
-                id: sandbox
-                source: ./workspace/sandbox
-                target: /var/www/sandbox
-                nfs: 'false'
-            jcms:
-                id: jcms
-                source: ../jcms
-                target: /var/www/jcms
-                nfs: 'false'
-            jresidence:
-                id: jresidence
-                source: ../jresidence
-                target: /var/www/jresidence
-                nfs: 'false'
-            casedelmare:
-                id: casedelmare
-                source: ../casedelmareragusa
-                target: /var/www/casedelmareragusa
-                nfs: 'false'
-            lavoro:
-                id: lavoro
-                source: ../
-                target: /home/vagrant/lavoro
-                nfs: 'false'
+            webapp:
+                id: webapp
+                source: ../webapp
+                target: /var/www/webapp
+                nfs: 'false'            
         usable_port_range: 2200..2250
     ssh:
         host: null
@@ -105,39 +85,15 @@ apache:
         - vhost_alias
         - info
     vhosts:
-        sandbox:
-            servername: sandbox.dev.local
-            docroot: /var/www/sandbox/public
+        webapp:
+            servername: webapp.dev.local
+            docroot: /var/www/webapp/public
             port: '80'
             setenv:
                 - 'APPLICATION_ENV development'
             override:
                 - All
-        jcms:
-            servername: jcms.dev.local
-            docroot: /var/www/jcms/public
-            port: '80'
-            setenv:
-                - 'APPLICATION_ENV development'
-            override:
-                - All
-        jresidence:
-            servername: jresidence.dev.local
-            docroot: /var/www/jresidence/public
-            port: '80'
-            setenv:
-                - 'APPLICATION_ENV development'
-            override:
-                - All
-        casedelmare:
-                servername: casedelmare.dev.local
-                docroot: /var/www/casedelmareragusa/public
-                port: '80'
-                setenv:
-                    - 'APPLICATION_ENV development'
-                override:
-                    - All
-        adminer:
+        phpmyadmin:
             servername: phpmyadmin.dev.local
             docroot: /var/www/html/phpmyadmin
             port: '80'
@@ -198,14 +154,6 @@ mysql:
             host: localhost
             user: sandbox
             password: sandbox
-            sql_file: ''
-        jresidence:
-            grant:
-                - ALL
-            name: jresidence
-            host: localhost
-            user: jresidence
-            password: jresidence
             sql_file: ''
 mongodb:
     install: '1'
